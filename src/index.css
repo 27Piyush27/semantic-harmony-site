@@ -2,40 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* FIGMA LAND Design System - Modern SaaS Landing Page */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
+    /* Brand Colors */
+    --primary: 217 91% 60%;         /* Blue brand color */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 217 91% 55%;
+    --primary-glow: 217 91% 70%;
+    
+    /* Neutral Colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --foreground: 222 47% 11%;
+    --muted: 220 13% 91%;
+    --muted-foreground: 215 16% 47%;
+    
+    /* Semantic Colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --card-foreground: 222 47% 11%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217 91% 60%;
+    
+    /* Interactive States */
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    /* Design Tokens */
+    --hero-bg: 222 47% 11%;         /* Dark hero background */
+    --hero-overlay: 0 0% 0% / 0.6;  /* Hero overlay */
+    --section-bg: 0 0% 98%;         /* Light section background */
+    --footer-bg: 62 55% 97%;        /* Light yellow footer */
+    --newsletter-bg: 43 74% 90%;    /* Yellow newsletter section */
+    
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(222 47% 11%), hsl(222 47% 8%));
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(217 91% 65%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    
+    /* Shadows */
+    --shadow-card: 0 4px 6px -1px hsl(220 13% 91% / 0.1), 0 2px 4px -1px hsl(220 13% 91% / 0.06);
+    --shadow-hero: 0 25px 50px -12px hsl(0 0% 0% / 0.25);
+    --shadow-button: 0 4px 14px 0 hsl(217 91% 60% / 0.39);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
@@ -100,6 +119,135 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  .body-no-scroll {
+    overflow: hidden;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-hover));
+  }
+}
+
+@layer components {
+  /* Hero Section */
+  .hero-background {
+    background: var(--gradient-hero);
+    position: relative;
+  }
+
+  .hero-background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--hero-overlay));
+  }
+
+  /* Animations */
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Video Player */
+  .video-container {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .video-overlay:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  /* Testimonial Carousel */
+  .testimonial-carousel {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .testimonial-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+  }
+
+  .testimonial-dot.active {
+    background: hsl(var(--primary));
+  }
+
+  .testimonial-dot.inactive {
+    background: hsl(var(--muted));
+  }
+
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .modal-content {
+    background: hsl(var(--background));
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-hero);
+    max-width: 28rem;
+    width: 90%;
+    animation: slideUp 0.3s ease-out;
   }
 }
